@@ -36,15 +36,16 @@ type Game struct {
 func Init() {
 	game = Game{0.0}
 	img = ebiten.NewImage(scale, scale)
-	img.Fill(color.RGBA{0xff, 0xff, 0xff, 0xff})
+	col := color.RGBA{R: 0xff, G: 0xff, B: 0xff, A: 0xff}
+	img.Fill(col)
 }
 
 func (t *Thing) draw(screen *ebiten.Image, theta float64) {
 	op := &ebiten.DrawImageOptions{}
-	// Translate the thing position (y axis is negative to invert the coordinates)
+	// Translate the thing position (y-axis is negative to invert the coordinates)
 	op.GeoM.Translate(t.X, -t.Y)
 	op.GeoM.Rotate(theta)
-	op.GeoM.Translate(halfW - halfS, halfH - halfS)
+	op.GeoM.Translate(halfW-halfS, halfH-halfS)
 	screen.DrawImage(img, op)
 }
 
@@ -59,7 +60,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		y := float64(y)
 		for i := 0; i < 10; i++ {
 			i := float64(i)
-			rot := i + 1.0 + y * 10.0
+			rot := i + 1.0 + y*10.0
 			thing := Thing{math.Sin(y*0.1+theta+i*2.0) * 100., y}
 			thing.draw(screen, theta*0.001*rot)
 		}
